@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities>
+    <entity entity-name="Donate" package="donate">
+        <field name="firstName" type="text-long" is-pk="true"/>
+        <field name="lastName" type="text-long"/> 
+        <field name="address" type="text-long"/> 
+        <field name="aptNumber" type="text-long"/> 
+        <field name="city" type="text-long"/> 
+        <field name="state" type="text-long"/> 
+        <field name="zip" type="text-long"/> 
+    </entity>
+</entities>

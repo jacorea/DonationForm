@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-facade-xml type="seed">
+    <donate.Donate
+            firstName="John"
+            lastName="Doe"
+            address="6273 Stetson Ave"
+            aptNumber="n/a"
+            city="San Diego"
+            state="California"
+            zip="92122"/>
+    <donate.Donate
+            firstName="Tom"
+            lastName="Soyer"
+            address="6300 Stetson Ave"
+            aptNumber="n/a"
+            city="San Diego"
+            state="California"
+            zip="92122"/>
+            
+    <moqui.security.ArtifactGroup artifactGroupId="EMPLOYMENT_API"/>
+    <moqui.security.ArtifactAuthz userGroupId="ADMIN" authzActionEnumId="AUTHZA_ALL" artifactGroupId="EMPLOYMENT_API" authzTypeEnumId="AUTHZT_ALLOW"/>
+
+    <artifactGroups artifactGroupId="EMPLOYMENT_API">
+    <artifacts artifactName="component://donate/screen/donate/DonateForm*" artifactTypeEnumId="AT_XML_SCREEN_TRANS" inheritAuthz="Y" nameIsPattern="Y"/>
+    <artifacts artifactName="component://donate/screen/donate/DonateForm.xml" artifactTypeEnumId="AT_XML_SCREEN" inheritAuthz="Y" nameIsPattern="N"/>
+    </artifactGroups>
+</entity-facade-xml>

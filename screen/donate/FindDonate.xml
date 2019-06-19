@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<screen require-authentication="anonymous-all"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd">
+
+
+    <transition name="donationForm">
+        <default-response url="."/>
+    </transition>
+
+    <actions>
+
+    </actions>
+
+    <widgets>
+        <label type="h1" text="Donation Application"/>
+        <label type="p" text="Please fill out the form below"/>
+        <form-single name="donate" transition="donationForm">
+            <field name="firstName"><default-field><text-line/></default-field></field>
+            <field name="lastName"><default-field><text-line/></default-field></field>
+            <field name="address"><default-field><text-line/></default-field></field>
+            <field name="AptNo."><default-field><text-line/></default-field></field>
+            <field name="city"><default-field><text-line/></default-field></field>
+            <field name="state"><default-field><text-line/></default-field></field>
+            <field name="zip"><default-field><text-line/></default-field></field>
+            <field name="submitButton"><default-field title="Submit"><submit/></default-field></field>
+        </form-single>
+    </widgets>
+</screen>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen require-authentication="anonymous-all">
+
+    <transition name="findDonate"><default-response url="."/></transition>
+    <transition name="CreateDonation">
+        <service-call name="donate.donateServices.create#Donate"/>
+        <default-response url="."/>
+    </transition>
+
+    <actions>
+        <entity-find entity-name="donate.Donate" list="donationList">
+            <search-form-inputs/></entity-find>
+    </actions>
+
+    <widgets>
+        <form-list name="ListDonations" list="donationList" transition="findDonate">
+            <auto-fields-entity entity-name="donate.Donate" field-type="display"/>
+            <field name="firstName">
+                <header-field show-order-by="true"><text-find hide-options="true"/></header-field>
+                <default-field><display/></default-field>
+            </field>
+            <field name="lastName">
+                <header-field show-order-by="true"><text-find hide-options="true"/></header-field>
+                <default-field><display/></default-field>
+            </field>
+        </form-list>
+         <container-dialog id="CreateDonationDialog" button-text="Donate">
+            <form-single name="CreateDonation" transition="CreateDonation">
+                <auto-fields-entity entity-name="donate.Donate" field-type="edit"/>
+                <field name="submitButton">
+                    <default-field title="Create"><submit/></default-field>
+                </field>
+            </form-single>
+        </container-dialog>
+    </widgets>
+</screen>

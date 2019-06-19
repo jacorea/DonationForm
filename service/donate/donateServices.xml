@@ -1,0 +1,18 @@
+<services>
+    <service verb="create" noun="Donate" type="inline">
+        <in-parameters>
+            <auto-parameters include="all"/>
+        </in-parameters>
+        <out-parameters>
+            <auto-parameters include="pk" required="true"/>
+        </out-parameters>
+        <actions>
+            <entity-make-value entity-name="donate.Donate" value-field="donate"/>
+            <entity-set value-field="donate" include="all"/>
+            <if condition="!donate.firstName">
+                <entity-sequenced-id-primary value-field="donate"/>
+            </if>
+            <entity-create value-field="donate"/>
+        </actions>
+    </service>
+</services>
