@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <screen require-authentication="false" standalone="true"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd">
-    <subscreens default-item="DonateForm"/>
+    <subscreens default-item="FindDonate"/>
     <widgets>
         <subscreens-active/>
     </widgets>
