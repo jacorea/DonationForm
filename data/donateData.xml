@@ -21,7 +21,7 @@
     <moqui.security.ArtifactAuthz userGroupId="ADMIN" authzActionEnumId="AUTHZA_ALL" artifactGroupId="EMPLOYMENT_API" authzTypeEnumId="AUTHZT_ALLOW"/>
 
     <artifactGroups artifactGroupId="EMPLOYMENT_API">
-    <artifacts artifactName="component://donate/screen/donate/DonateForm*" artifactTypeEnumId="AT_XML_SCREEN_TRANS" inheritAuthz="Y" nameIsPattern="Y"/>
-    <artifacts artifactName="component://donate/screen/donate/DonateForm.xml" artifactTypeEnumId="AT_XML_SCREEN" inheritAuthz="Y" nameIsPattern="N"/>
+    <artifacts artifactName="component://donate/screen/donate/FindDonate*" artifactTypeEnumId="AT_XML_SCREEN_TRANS" inheritAuthz="Y" nameIsPattern="Y"/>
+    <artifacts artifactName="component://donate/screen/donate/FindDonate.xml" artifactTypeEnumId="AT_XML_SCREEN" inheritAuthz="Y" nameIsPattern="N"/>
     </artifactGroups>
 </entity-facade-xml>

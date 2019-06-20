@@ -7,12 +7,9 @@
             <auto-parameters include="pk" required="true"/>
         </out-parameters>
         <actions>
-            <entity-make-value entity-name="donate.Donate" value-field="donate"/>
-            <entity-set value-field="donate" include="all"/>
-            <if condition="!donate.firstName">
-                <entity-sequenced-id-primary value-field="donate"/>
-            </if>
-            <entity-create value-field="donate"/>
+            <log message="==========================================================="/>
+            <log message="${context}"/>
+            <service-call name="mantle.party.PartyServices.create#PersonCustomer" in-map="context" out-map="context"/>         
         </actions>
     </service>
 </services>
