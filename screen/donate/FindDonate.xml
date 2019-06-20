@@ -9,6 +9,7 @@
         <service-call name="mantle.party.PartyServices.create#PersonCustomer" in-map="context" out-map="context"/>
         <default-response url="."/>
     </transition>
+    <transition-include name="getGeoCountryStates" location="component://SimpleScreens/template/party/PartyForms.xml"/>
 
     <actions>
 
@@ -18,22 +19,90 @@
         <label type="h1" text="Donation Application"/>
         <label type="p" text="Please fill out the form below"/>
           <form-single name="donate" transition="donationForm">
-            <field name="firstName"><default-field><text-line/></default-field></field>
-            <field name="lastName"><default-field><text-line/></default-field></field>
-            <field name="address1"><default-field><text-line /></default-field></field>
-            <field name="address2"><default-field><text-line/></default-field></field>
-            <field name="city"><default-field><text-line/></default-field></field>
-            <field name="stateProvinceGeoId"><default-field>
-                <drop-down allow-empty="true"><entity-options key="${toGeoId}" text="${geoName}">
-                    <entity-find entity-name="moqui.basic.GeoAssocAndToDetail">
-                        <econdition field-name="geoId" value="USA"/>
-                        <econdition field-name="geoAssocTypeEnumId" value="GAT_REGIONS"/>
-                        <order-by field-name="geoName"/>
-                    </entity-find>
+            <field name="firstName"><default-field title="" tooltip="First name"><text-line/></default-field></field>
+            <field name="lastName"><default-field title="" tooltip="Last name"><text-line/></default-field></field>
+            <field name="address1"><default-field title="Address"><text-line /></default-field></field>
+            <field name="unitNumber"><default-field title="Unit"><text-line size="10"/></default-field></field>
+            <field name="address2"><default-field title="Address 2"><text-line/></default-field></field>
+            <field name="emailAddress"><default-field title="Email"><text-line size="40"/></default-field></field>
+            <field name="countryCode"><default-field title="" tooltip="Country Code">
+                    <label text="+"/><text-line size="3" maxlength="3" default-value="${ec.user.getPreference('TelecomNumber.DefaultCountryCode') ?: '1'}"/></default-field></field>
+                <field name="areaCode"><default-field title="" tooltip="Area Code">
+                    <label text="-"/><text-line size="3" maxlength="3"/></default-field></field>
+                <field name="contactNumber"><default-field  title="" tooltip="Phone Number">
+                    <label text="-"/><text-line size="8" maxlength="8"/></default-field></field>
+
+            <field name="city"><default-field title=""><text-line/></default-field></field>
+            <field name="countryGeoId"><default-field title="">
+                    <drop-down no-current-selected-key="USA">
+                        <entity-options key="${geoId}" text="${geoName}">
+                            <entity-find entity-name="moqui.basic.Geo" list="geoList">
+                                <econdition field-name="geoTypeEnumId" value="GEOT_COUNTRY"/>
+                                <order-by field-name="geoName"/></entity-find>
+                        </entity-options>
+                    </drop-down>
+                </default-field>
+            </field>
+            <field name="stateProvinceGeoId"><default-field title="">
+                    <drop-down><dynamic-options transition="getGeoCountryStates" value-field="geoId">
+                        <depends-on field="countryGeoId"/></dynamic-options></drop-down>
+                </default-field>
+            </field>
+            <field name="postalCode"><default-field title=""><text-line/></default-field></field>
+            <field name="creditCardTypeEnumId"><default-field title="">
+                <drop-down><entity-options key="${enumId}" text="${description}">
+                    <entity-find entity-name="moqui.basic.Enumeration">
+                        <econdition field-name="enumTypeId" value="CreditCardType"/>
+                        <order-by field-name="description"/></entity-find>
                 </entity-options></drop-down>
             </default-field></field>
-            <field name="postalCode"><default-field ><text-line/></default-field></field>
+            <field name="cardNumber"><default-field title="" tooltip="Leave blank to not add credit card">
+                <text-line size="16"/></default-field></field>
+            <field name="expireMonth">
+                <default-field title=""><drop-down no-current-selected-key="${ec.l10n.format(ec.user.nowTimestamp, 'MM')}">
+                    <option key="01"/><option key="02"/><option key="03"/><option key="04"/><option key="05"/>
+                    <option key="06"/><option key="07"/><option key="08"/><option key="09"/><option key="10"/>
+                    <option key="11"/><option key="12"/>
+                </drop-down></default-field>
+            </field>
+            <field name="expireYear">
+                <default-field title=""><drop-down no-current-selected-key="${ec.l10n.format(ec.user.nowTimestamp, 'yyyy')}">
+                    <list-options list="org.moqui.util.StringUtilities.getYearList(10)"/></drop-down></default-field>
+            </field>
+            <field name="paymentGatewayConfigId"><default-field title="Payment Gateway">
+                <drop-down allow-empty="true">
+                    <entity-options key="${paymentGatewayConfigId}" text="${description}">
+                        <entity-find entity-name="mantle.account.method.PaymentGatewayConfig">
+                            <econdition field-name="paymentGatewayTypeEnumId" operator="not-equals" value="PgtTest"/>
+                            <order-by field-name="description"/></entity-find>
+                    </entity-options>
+                </drop-down>
+            </default-field>
+            </field>
             <field name="submitButton"><default-field title="Submit"><submit/></default-field></field>
+            <field-layout>
+                <field-row-big title="Name"><field-ref name="firstName"/>
+                    <field-ref name="lastName"/></field-row-big>
+
+                <field-ref name="emailAddress"/>
+                <field-row-big title="Phone"><field-ref name="countryCode"/><field-ref name="areaCode"/>
+                    <field-ref name="contactNumber"/></field-row-big>
+
+                <field-row><field-ref name="address1"/><field-ref name="unitNumber"/></field-row>
+                <field-ref name="address2"/>
+                <field-row-big title="City/Zip"><field-ref name="city"/>
+                    <field-ref name="postalCode"/></field-row-big>
+                <field-row-big title="Country/State"><field-ref name="countryGeoId"/>
+                    <field-ref name="stateProvinceGeoId"/></field-row-big>
+
+                <field-row-big title="Card Number"><field-ref name="creditCardTypeEnumId"/>
+                    <field-ref name="cardNumber"/></field-row-big>
+                <field-row-big title="Expire Date"><field-ref name="expireMonth"/>
+                    <field-ref name="expireYear"/></field-row-big>
+                <field-ref name="paymentGatewayConfigId"/>
+
+                <field-ref name="submitButton"/>
+            </field-layout>
         </form-single>
     </widgets>
 </screen>
