@@ -49,15 +49,23 @@
                 </default-field>
             </field>
             <field name="postalCode"><default-field title=""><text-line/></default-field></field>
-            <field name="creditCardTypeEnumId"><default-field title="">
-                <drop-down><entity-options key="${enumId}" text="${description}">
-                    <entity-find entity-name="moqui.basic.Enumeration">
-                        <econdition field-name="enumTypeId" value="CreditCardType"/>
-                        <order-by field-name="description"/></entity-find>
-                </entity-options></drop-down>
-            </default-field></field>
+            <field name="creditCardTypeEnumId">
+                <default-field title="">
+                    <drop-down>
+                        <entity-options key="${enumId}" text="${description}">
+                            <entity-find entity-name="moqui.basic.Enumeration">
+                                <econdition field-name="enumTypeId" value="CreditCardType"/>
+                                <order-by field-name="description"/>
+                            </entity-find>
+                        </entity-options>
+                    </drop-down>
+                </default-field>
+            </field>
             <field name="cardNumber"><default-field title="" tooltip="Leave blank to not add credit card">
                 <text-line size="16"/></default-field></field>
+            <field name="amount"><default-field><text-line size="12" format="#.00"/></default-field></field>
+            <field name="effectiveDate" from="ec.user.nowTimestamp"><default-field><date-time/></default-field></field>
+
             <field name="expireMonth">
                 <default-field title=""><drop-down no-current-selected-key="${ec.l10n.format(ec.user.nowTimestamp, 'MM')}">
                     <option key="01"/><option key="02"/><option key="03"/><option key="04"/><option key="05"/>
@@ -69,7 +77,7 @@
                 <default-field title=""><drop-down no-current-selected-key="${ec.l10n.format(ec.user.nowTimestamp, 'yyyy')}">
                     <list-options list="org.moqui.util.StringUtilities.getYearList(10)"/></drop-down></default-field>
             </field>
-            <field name="paymentGatewayConfigId"><default-field title="Payment Gateway">
+            <!-- <field name="paymentGatewayConfigId"><default-field title="Payment Gateway">
                 <drop-down allow-empty="true">
                     <entity-options key="${paymentGatewayConfigId}" text="${description}">
                         <entity-find entity-name="mantle.account.method.PaymentGatewayConfig">
@@ -78,7 +86,7 @@
                     </entity-options>
                 </drop-down>
             </default-field>
-            </field>
+            </field> -->
             <field name="submitButton"><default-field title="Submit"><submit/></default-field></field>
             <field-layout>
                 <field-row-big title="Name"><field-ref name="firstName"/>
@@ -99,7 +107,9 @@
                     <field-ref name="cardNumber"/></field-row-big>
                 <field-row-big title="Expire Date"><field-ref name="expireMonth"/>
                     <field-ref name="expireYear"/></field-row-big>
-                <field-ref name="paymentGatewayConfigId"/>
+                <!-- <field-ref name="paymentGatewayConfigId"/> -->
+                <field-ref name="amount"/>
+                <field-ref name="effectiveDate"/>
 
                 <field-ref name="submitButton"/>
             </field-layout>
